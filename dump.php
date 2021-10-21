@@ -28,4 +28,4 @@ echo "<br/>";
 
 ?>
 
-Please Check the file <b style="color: red;"> <?php echo $dump_name;?> </b>
+Please Check the file <b style="color: red;"> <?php echo $dir;?> </b>
