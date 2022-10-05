@@ -8,7 +8,7 @@ $database = "Enter Your Database Name Here";
 //if you want to dump a table then uncomment the bottom line 
 //$table = "Enter Your Table Name";
 
-$dump_name = "Exported_".$database.time().rand(10000,999999)."_By_MYSQL_Dumper.sql";
+$dump_name = "Exported_".$database."_".time().rand(10000,999999)."_By_MYSQL_Dumper.sql";
 $dir = dirname(__FILE__) . "/".$dump_name;
 
 echo "<h3>Backing up database to `<code>{$dir}</code>`</h3>";
