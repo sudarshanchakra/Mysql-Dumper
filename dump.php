@@ -1,31 +1,38 @@
 <?php
 
-$host = "localhost";
-$user = "Enter Your Username Here";
-$pass = "Enter Your Password Here";
-$database = "Enter Your Database Name Here";
+// Load database credentials from a configuration file or environment variables
+require 'config.php'; // Include a separate file with your database credentials
 
-//if you want to dump a table then uncomment the bottom line 
-//$table = "Enter Your Table Name";
+$dumpTable = isset($_POST['table']) ? $_POST['table'] : null;
 
-$dump_name = "Exported_".$database."_".time().rand(10000,999999)."_By_MYSQL_Dumper.sql";
-$dir = dirname(__FILE__) . "/".$dump_name;
+if (empty($dumpTable)) {
+    $dump_name = "Exported_{$database}_" . time() . rand(10000, 999999) . "_By_MYSQL_Dumper.sql";
+} else {
+    $dump_name = "Exported_{$dumpTable}_" . time() . rand(10000, 999999) . "_By_MYSQL_Dumper.sql";
+}
 
-echo "<h3>Backing up database to `<code>{$dir}</code>`</h3>";
+$dir = dirname(__FILE__) . "/{$dump_name}";
 
-exec("(mysqldump -u$user -p$pass $database > $dump_name) 2>&1", $output);
+echo "<h3>Backing up database to `<code>{$dir}</code></h3>";
 
-//if you want to dump a table then uncomment the bottom line & comment out the top line;
+if (empty($dumpTable)) {
+    $command = "mysqldump -u{$user} -p{$pass} {$database} > {$dump_name} 2>&1";
+} else {
+    $command = "mysqldump -u{$user} -p{$pass} {$database} {$dumpTable} > {$dump_name} 2>&1";
+}
 
-//$table = "Enter Your Table Name";
-//$dump_name = "Exported_".$table.time().rand(10000,999999)."_By_MYSQL_Dumper.sql";
-//exec("(mysqldump -u$user -p$pass $database $table > $dump_name) 2>&1", $output);
+exec($command, $output, $return_var);
 
+if ($return_var === 0) {
+    echo "Backup successful!";
+} else {
+    echo "Backup failed!";
+}
+
+echo "<br/><br>";
 echo json_encode($output);
-
-echo "<br/>";
-echo "<br/>";
+echo "<br/><br>";
 
 ?>
 
-Please Check the file <b style="color: red;"> <?php echo $dir;?> </b>
+Please Check the file <b style="color: red;"><?php echo $dir; ?></b>
