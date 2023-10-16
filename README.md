@@ -36,7 +36,7 @@ MySQL Dumper is a simple PHP script that allows you to quickly and easily back u
 4. Access the MySQL Dumper web interface in your browser:
 
    ```
-   http://your-domain.com/mysql-dumper/index.php
+   http://your-domain.com/mysql-dumper/dump.php
    ```
 
 ## Usage
